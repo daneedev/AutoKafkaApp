@@ -1,10 +1,13 @@
 package dev.daneeskripter.cernyrobin
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +37,17 @@ class InfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_info, container, false)
+
+        val button = view.findViewById<Button>(R.id.webVersionBtn)
+
+        button.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://cernyrob.in/kafka"))
+
+            startActivity(intent)
+        }
+
+        return view
     }
 
     companion object {
