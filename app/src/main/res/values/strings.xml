@@ -3,4 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description">Mobilní aplikace</string>
+    <string name="version">Verze: 1.0.0-alpha.1</string>
+    <string name="appauthor">Autor mobilní aplikace: DaneeSkripter</string>
+    <string name="kafkaauthor">Front-end webu AutoKafka: StuckInVim</string>
+    <string name="kafkabackauthor">Back-end webu AutoKafka: Actulurus</string>
+    <string name="webversion">Webová verze</string>
 </resources>
