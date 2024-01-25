@@ -6,7 +6,7 @@
 | -------- | --------- | ----- |
 | Vytvoření základu aplikace (navbar) | ✅ | - |
 | Vyplnit informace do info tabu | ✅ | - |
-| Nastavit custom check for updates službu | ❌ | 
+| Nastavit custom check for updates službu | ✅ | - |
 | Odesílaní API requestů a následný příjem informací z AutoKafka API | ❌ |
 | Vytvoření front-endu aplikace (Otázky a odpovědi z videí) | ❌ |
 | Možnost odesílat žádosti o přidání videa | ❌ |
