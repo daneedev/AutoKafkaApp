@@ -62,7 +62,7 @@ class InfoFragment : Fragment() {
         // CHECK FOR UPDATES
        val currentVersion : String = context?.packageManager?.getPackageInfo("dev.daneeskripter.cernyrobin", 0)!!.versionName
         GlobalScope.launch(Dispatchers.Main) {
-           val latestVersion = getRequest("https://version.daneeskripter.dev/autokafka/version.txt").bodyAsText()
+           val latestVersion = APIMethods().getRequest("https://version.daneeskripter.dev/autokafka/version.txt").bodyAsText()
             if (latestVersion == currentVersion) {
                 versionButton.setBackgroundColor(Color.GREEN)
                 versionButton.setText(R.string.latestversion)
@@ -82,17 +82,7 @@ class InfoFragment : Fragment() {
         return view
     }
 
-    suspend fun getRequest(url: String) : HttpResponse {
-        return withContext(Dispatchers.IO) {
-            val client = HttpClient(CIO)
-            try {
-                val response: HttpResponse = client.get(url)
-                response
-            } finally {
-                client.close()
-            }
-        }
-    }
+
 
     companion object {
         /**
