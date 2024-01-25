@@ -103,6 +103,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/authorKafkaText" />
 
+
         <TextView
             android:id="@+id/textApp"
             android:layout_width="wrap_content"
@@ -126,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="137dp"
             android:layout_marginEnd="137dp"
-            android:layout_marginBottom="188dp"
+            android:layout_marginBottom="200dp"
             android:text="@string/webversion"
             android:textColorHighlight="@color/white"
             android:textColorLink="@color/blue"
@@ -134,6 +135,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/versionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="162dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginBottom="141dp"
+            android:backgroundTint="@color/red"
+            android:text="Probíhá kontrola..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/webVersionBtn"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

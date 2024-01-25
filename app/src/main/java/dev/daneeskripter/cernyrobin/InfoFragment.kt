@@ -1,6 +1,7 @@
 package dev.daneeskripter.cernyrobin
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import io.ktor.client.*
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,15 +50,48 @@ class InfoFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_info, container, false)
 
-        val button = view.findViewById<Button>(R.id.webVersionBtn)
+        // Import the components
+        val webButton = view.findViewById<Button>(R.id.webVersionBtn)
+        val versionButton = view.findViewById<Button>(R.id.versionButton)
+        val versionText = view.findViewById<TextView>(R.id.versionText)
 
-        button.setOnClickListener {
+        webButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://cernyrob.in/kafka"))
-
             startActivity(intent)
         }
+        // CHECK FOR UPDATES
+       val currentVersion : String = context?.packageManager?.getPackageInfo("dev.daneeskripter.cernyrobin", 0)!!.versionName
+        GlobalScope.launch(Dispatchers.Main) {
+           val latestVersion = getRequest("https://version.daneeskripter.dev/autokafka/version.txt").bodyAsText()
+            if (latestVersion == currentVersion) {
+                versionButton.setBackgroundColor(Color.GREEN)
+                versionButton.setText(R.string.latestversion)
+            } else {
+                versionButton.setBackgroundColor(Color.YELLOW)
+                versionButton.setText(R.string.updateversion)
+                versionButton.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/DaneeSkripter/AutoKafkaApp/releases"))
+                    startActivity(intent)
+                }
+            }
+        }
+
+        // SET CURRENT VERSION
+        versionText.setText("${versionText.text} ${currentVersion}")
 
         return view
+    }
+
+    suspend fun getRequest(url: String) : HttpResponse {
+        return withContext(Dispatchers.IO) {
+            val client = HttpClient(CIO)
+            try {
+                val response: HttpResponse = client.get(url)
+                response
+            } finally {
+                client.close()
+            }
+        }
     }
 
     companion object {
