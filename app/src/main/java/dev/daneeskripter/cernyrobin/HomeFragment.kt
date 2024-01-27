@@ -95,9 +95,13 @@ class HomeFragment : Fragment() {
           try {
               val jsonResult = Json { ignoreUnknownKeys = true }.decodeFromString<AutoKafka>(result)
               jsonResult.list.forEach {
-                  val title : TextView = TextView(requireContext())
-                  title.text = "Název: ${it.value.videoInfo.title}\nURL: ${it.value.videoUrl}"
-                  linearLayout.addView(title)
+                  val videoBox: View = layoutInflater.inflate(R.layout.video_template, null)
+                  val title = videoBox.findViewById<TextView>(R.id.videoTitle)
+                  val answers = videoBox.findViewById<TextView>(R.id.videoAnswers)
+                  title.text = it.value.videoInfo.title
+                  answers.text = it.value.answers
+
+                  linearLayout.addView(videoBox)
               }
           } catch (e: Exception) {
               e.printStackTrace()
