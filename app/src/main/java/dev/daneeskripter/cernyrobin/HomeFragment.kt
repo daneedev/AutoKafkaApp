@@ -1,24 +1,25 @@
 package dev.daneeskripter.cernyrobin
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.beust.klaxon.Klaxon
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import io.ktor.client.call.body
-import io.ktor.client.statement.bodyAsChannel
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.decodeFromStream
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,24 +91,37 @@ class HomeFragment : Fragment() {
         )
 
         val linearLayout : LinearLayout = view.findViewById(R.id.videosLayout)
-      GlobalScope.launch(Dispatchers.Main) {
-            val result = APIMethods().getRequest("https://api.cernyrob.in/kafka/list").bodyAsText()
-          try {
-              val jsonResult = Json { ignoreUnknownKeys = true }.decodeFromString<AutoKafka>(result)
-              jsonResult.list.forEach {
-                  val videoBox: View = layoutInflater.inflate(R.layout.video_template, null)
-                  val title = videoBox.findViewById<TextView>(R.id.videoTitle)
-                  val answers = videoBox.findViewById<TextView>(R.id.videoAnswers)
-                  title.text = it.value.videoInfo.title
-                  answers.text = it.value.answers
 
-                  linearLayout.addView(videoBox)
-              }
-          } catch (e: Exception) {
-              e.printStackTrace()
-          }
-        }
-
+            GlobalScope.launch(Dispatchers.Main) {
+                val result = APIMethods().getRequest("https://api.cernyrob.in/kafka/list")
+                try {
+                    if (result.status.value != 200) {
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setTitle("Chyba serveru")
+                            .setMessage("Nelze se spojit se serverem")
+                            .setCancelable(false)
+                            .setPositiveButton("OK") { _: DialogInterface, _: Int ->
+                            }
+                            .show()
+                    } else {
+                        val jsonResult = Json {
+                            ignoreUnknownKeys = true
+                        }.decodeFromString<AutoKafka>(result.bodyAsText())
+                        jsonResult.list.forEach {
+                            val videoBox: View = layoutInflater.inflate(R.layout.video_template, null)
+                            val title = videoBox.findViewById<TextView>(R.id.videoTitle)
+                            val image = videoBox.findViewById<ImageView>(R.id.videoImage)
+                            title.text = it.value.videoInfo.title
+                            Glide.with(this@HomeFragment)
+                                .load("https://img.youtube.com/vi/${it.value.videoUrl.split("=")[1]}/maxresdefault.jpg")
+                                .into(image)
+                            linearLayout.addView(videoBox)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         return view
     }
 
