@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".answers"
-    android:background="@color/background"
-    >
+    tools:context=".AnswersFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginEnd="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/answers_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/qna"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <ScrollView
             android:id="@+id/scroll"
@@ -19,19 +45,14 @@
             android:layout_height="match_parent"
             android:contentDescription="a"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="0dp">
 
             <LinearLayout
                 android:id="@+id/answersLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:orientation="vertical" />
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>
