@@ -2,12 +2,12 @@ package dev.daneeskripter.cernyrobin
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -55,52 +55,17 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
-        @Serializable
-        data class VideoInfo(
-            @SerialName("title") val title: String,
-            @SerialName("author_name") val authorName: String,
-            @SerialName("author_url") val authorUrl: String,
-            @SerialName("type") val type: String,
-            @SerialName("height") val height: Int,
-            @SerialName("width") val width: Int,
-            @SerialName("version") val version: String,
-            @SerialName("provider_name") val providerName: String,
-            @SerialName("provider_url") val providerUrl: String,
-            @SerialName("thumbnail_height") val thumbnailHeight: Int,
-            @SerialName("thumbnail_width") val thumbnailWidth: Int,
-            @SerialName("thumbnail_url") val thumbnailUrl: String,
-            @SerialName("html") val html: String,
-            @SerialName("description") val description: String
-        )
-
-        @Serializable
-        data class Video(
-            @SerialName("answers") val answers: String,
-            @SerialName("transcript") val transcript: String,
-            @SerialName("language") val language: String,
-            @SerialName("video_info") val videoInfo: VideoInfo,
-            @SerialName("video_url") val videoUrl: String
-
-        )
-
-        @Serializable
-        data class AutoKafka(
-            @SerialName("code") val code: Int,
-            @SerialName("message") val message: String,
-            @SerialName("list") val list: Map<String, Video>
-        )
-
-        val linearLayout : LinearLayout = view.findViewById(R.id.videosLayout)
+        val linearLayout : LinearLayout = view.findViewById(R.id.answersLayout)
 
             GlobalScope.launch(Dispatchers.Main) {
-                val result = APIMethods().getRequest("https://api.cernyrob.in/kafka/list")
+                val result = APIMethods().getRequest(/*"https://api.cernyrob.in/kafka/list"*/ "https://api.cernyrob.in/kafka/list")
                 try {
                     if (result.status.value != 200) {
                         val builder = AlertDialog.Builder(requireContext())
                         builder.setTitle("Chyba serveru")
                             .setMessage("Nelze se spojit se serverem")
                             .setCancelable(false)
-                            .setPositiveButton("OK") { _: DialogInterface, _: Int ->
+                            .setPositiveButton("vitek neco dosral tyvole") { _: DialogInterface, _: Int ->
                             }
                             .show()
                     } else {
@@ -115,6 +80,19 @@ class HomeFragment : Fragment() {
                             Glide.with(this@HomeFragment)
                                 .load("https://img.youtube.com/vi/${it.value.videoUrl.split("=")[1]}/maxresdefault.jpg")
                                 .into(image)
+                            val videoData = Json.encodeToString(Video.serializer(), it.value)
+                            videoBox.setOnClickListener {
+                                val args = Bundle()
+                                args.putString("video", videoData)
+                                val answersFragment = AnswersFragment()
+                                answersFragment.arguments = args
+
+                                requireActivity().supportFragmentManager.beginTransaction()
+                                    .replace(R.id.frameLayout, answersFragment)
+                                    .addToBackStack(null)
+                                    .commit()
+
+                            }
                             linearLayout.addView(videoBox)
                         }
                     }
