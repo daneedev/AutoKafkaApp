@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
-        val linearLayout : LinearLayout = view.findViewById(R.id.answersLayout)
+        val linearLayout : LinearLayout = view.findViewById(R.id.videosLayout)
 
             GlobalScope.launch(Dispatchers.Main) {
                 val result = APIMethods().getRequest(/*"https://api.cernyrob.in/kafka/list"*/ "https://api.cernyrob.in/kafka/list")
