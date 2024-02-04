@@ -21,3 +21,5 @@
 | Odesílaní API requestů a následný příjem informací z AutoKafka API | ✅ | v1.0.0-beta.1 |
 | Vytvoření front-endu aplikace (Otázky a odpovědi z videí) | ✅ | v1.0.0-beta.2 |
 | Možnost odesílat žádosti o přidání videa | ❌ |
+| Možnost se přihlásit ke svému účtu v aplikaci | ❌ |
+| Push notifikace jakmile se přidá nové video | ❌ |
