@@ -46,7 +46,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("io.ktor:ktor-client-core:2.3.8")
-    implementation("io.ktor:ktor-client-cio:2.3.8")
+    implementation("io.ktor:ktor-client-cio:2.3.9")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
